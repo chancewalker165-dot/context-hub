@@ -51,7 +51,14 @@ async function fetchRemoteRegistry(source, force = false) {
   }
 
   const url = `${source.url}/registry.json`;
-  const res = await fetch(url);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  let res;
+  try {
+    res = await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
   if (!res.ok) {
     throw new Error(`Failed to fetch registry from ${source.name}: ${res.status} ${res.statusText}`);
   }
@@ -95,7 +102,14 @@ export async function fetchFullBundle(sourceName) {
   const url = `${source.url}/bundle.tar.gz`;
   const tmpPath = join(getSourceDir(sourceName), 'bundle.tar.gz');
 
-  const res = await fetch(url);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  let res;
+  try {
+    res = await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
   if (!res.ok) {
     throw new Error(`Failed to fetch bundle from ${sourceName}: ${res.status} ${res.statusText}`);
   }
@@ -141,7 +155,14 @@ export async function fetchDoc(source, docPath) {
 
   // Fetch from CDN
   const url = `${source.url}/${docPath}`;
-  const res = await fetch(url);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  let res;
+  try {
+    res = await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
   if (!res.ok) {
     throw new Error(`Failed to fetch ${docPath} from ${source.name}: ${res.status} ${res.statusText}`);
   }

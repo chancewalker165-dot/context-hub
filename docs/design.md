@@ -362,7 +362,7 @@ All content follows the [Agent Skills spec](https://agentskills.io/specification
 
 ### What the CDN serves
 ```
-cdn.contexthub.dev/v1/
+cdn.aichub.org/v1/
 ├── registry.json                                        # Index (~100KB)
 ├── bundle.tar.gz                                        # Full bundle (optional)
 ├── stripe/docs/payments/DOC.md                         # Entry point
@@ -401,7 +401,7 @@ Local path sources are **not cached** — the CLI reads directly from the config
 ```json
 {
   "version": "1.0.0",
-  "base_url": "https://cdn.contexthub.dev/v1",
+  "base_url": "https://cdn.aichub.org/v1",
   "generated": "2026-02-02T00:00:00.000Z",
   "docs": [
     {
@@ -464,7 +464,7 @@ Local path sources are **not cached** — the CLI reads directly from the config
 # Multi-source (recommended)
 sources:
   - name: community
-    url: https://cdn.contexthub.dev/v1       # Remote CDN
+    url: https://cdn.aichub.org/v1       # Remote CDN
   - name: internal
     path: /path/to/local/docs                # Local folder (build output)
 

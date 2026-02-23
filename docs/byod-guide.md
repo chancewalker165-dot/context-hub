@@ -62,7 +62,7 @@ Add your local build output as a source in `~/.chub/config.yaml`:
 ```yaml
 sources:
   - name: community
-    url: https://cdn.contexthub.dev/v1
+    url: https://cdn.aichub.org/v1
   - name: internal
     path: /path/to/.chub-local
 ```

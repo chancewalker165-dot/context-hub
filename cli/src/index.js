@@ -9,6 +9,7 @@ import { registerCacheCommand } from './commands/cache.js';
 import { registerSearchCommand } from './commands/search.js';
 import { registerGetCommand } from './commands/get.js';
 import { registerBuildCommand } from './commands/build.js';
+import { registerFeedbackCommand } from './commands/feedback.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf8'));
@@ -63,7 +64,7 @@ ${chalk.bold.underline('Multi-Source Config')} ${chalk.dim('(~/.chub/config.yaml
 
   ${chalk.dim('sources:')}
   ${chalk.dim('  - name: community')}
-  ${chalk.dim('    url: https://cdn.contexthub.dev/v1')}
+  ${chalk.dim('    url: https://cdn.aichub.org/v1')}
   ${chalk.dim('  - name: internal')}
   ${chalk.dim('    path: /path/to/local/docs')}
 
@@ -83,7 +84,7 @@ program
   });
 
 // Commands that don't need registry
-const SKIP_REGISTRY = ['update', 'cache', 'build', 'help'];
+const SKIP_REGISTRY = ['update', 'cache', 'build', 'feedback', 'help'];
 
 program.hook('preAction', async (thisCommand) => {
   const cmdName = thisCommand.args?.[0] || thisCommand.name();
@@ -105,5 +106,6 @@ registerCacheCommand(program);
 registerSearchCommand(program);
 registerGetCommand(program);
 registerBuildCommand(program);
+registerFeedbackCommand(program);
 
 program.parse();

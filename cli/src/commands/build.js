@@ -307,7 +307,7 @@ export function registerBuildCommand(program) {
         // Skip registry.json in author dirs
         cpSync(src, dest, {
           recursive: true,
-          filter: (s) => !s.endsWith('/registry.json') || s === join(src, 'registry.json') === false,
+          filter: (s) => !s.endsWith('/registry.json'),
         });
       }
 
