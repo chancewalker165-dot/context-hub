@@ -8,20 +8,53 @@ Context Hub gives AI agents the right documentation — and agents that use it g
 
 ## The Problem
 
-Your AI agent was trained months ago. The API you're using shipped a breaking change last week. The agent doesn't know — it hallucinate parameters, uses deprecated patterns, and writes code that doesn't compile. You debug for 20 minutes, then paste the docs into chat yourself.
+Your AI agent was trained months — or years — ago. The API you're using shipped a breaking change last week. The agent doesn't know. It hallucinates parameters, uses deprecated patterns, and writes code that doesn't compile.
 
-Pasting docs into chat doesn't scale. The agent forgets everything next session. It makes the same mistakes again.
+It gets worse with existing codebases. You're debugging a project pinned to an older SDK version. The agent has no idea what's different between v2 and v3 — it just guesses.
+
+Then there are the things that aren't in any public doc: your team's deployment playbook, your auth patterns, your coding conventions. Every agent on your team should follow them, but none of them know they exist.
+
+You can paste docs into chat, but it doesn't scale. The agent forgets everything next session and makes the same mistakes again. And when the agent does figure something out — a workaround, a missing detail — that knowledge is lost. There's no way to capture it for next time.
 
 ## Quick Start
 
 ```bash
 npm install -g @aisuite/chub
-chub update                          # download the registry
 chub search "stripe"                 # find what's available
-chub get stripe/api --lang js        # fetch current docs
+chub get stripe/api                  # fetch current docs
 ```
 
-## Two Content Types
+## The Agent Workflow
+
+Context Hub is designed for a loop where agents get better over time.
+
+**Most of the time, it's simple — search, fetch, use:**
+
+```bash
+chub search "stripe payments"        # find relevant docs
+chub get stripe/api                  # fetch the doc
+# Agent reads the doc, writes correct code. Done.
+```
+
+**When the agent discovers a gap**, it can annotate locally for next time:
+
+```bash
+# Agent figured out that webhook verification needs the raw request body.
+# That wasn't obvious from the doc. Save it:
+chub annotate stripe/api "Webhook verification requires raw body — do not parse JSON before verifying"
+
+# Next session, the annotation appears automatically:
+chub get stripe/api
+# ---
+# [Agent note]
+# Webhook verification requires raw body — do not parse JSON before verifying
+```
+
+The annotation persists across sessions. The agent doesn't repeat the same mistake.
+
+**The content itself improves over time too.** Agents can send feedback (`chub feedback stripe/api up` or `down`) to doc authors, who update the content based on what's working and what isn't. So the docs get better for everyone — not just your local annotations.
+
+## Content Types
 
 **Docs** — API and SDK references. Versioned, language-specific. "What to know."
 ```bash
@@ -35,39 +68,6 @@ chub get pw-community/login-flows    # fetch a skill
 ```
 
 Both are markdown with YAML frontmatter, following the [Agent Skills](https://agentskills.io) open standard — compatible with Claude Code, Cursor, Codex, and other AI tools.
-
-## The Agent Workflow
-
-Context Hub is designed for a loop where agents get better over time:
-
-```
-Search  →  Fetch  →  Use  →  Annotate  →  (next time) Fetch with notes
-```
-
-Here's what that looks like in practice:
-
-```bash
-# 1. Agent searches for relevant docs
-ID=$(chub search "stripe payments" --json | jq -r '.results[0].id')
-
-# 2. Agent fetches the doc
-chub get "$ID" --lang js -o .context/stripe.md
-
-# 3. Agent reads the doc, writes code, discovers that webhook
-#    signature verification requires raw body (not parsed JSON)
-
-# 4. Agent annotates for next time
-chub annotate "$ID" "Webhook signature verification requires raw request body — do not parse JSON before verifying"
-
-# 5. Next session — the annotation appears automatically when fetching
-chub get "$ID" --lang js
-# Output includes:
-# ---
-# [Agent note — 2025-01-15T10:30:00Z]
-# Webhook signature verification requires raw request body — do not parse JSON before verifying
-```
-
-The annotation persists across sessions. Every future fetch of that doc includes the note. The agent doesn't repeat the same mistake.
 
 ## Commands
 
