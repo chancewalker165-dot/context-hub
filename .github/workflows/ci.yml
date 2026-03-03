@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: rm -f package-lock.json && npm install
       - run: cd cli && npm test
-      - run: node cli/bin/chub build sample-content/ --validate-only
+      - run: node cli/bin/chub build content/ --validate-only
       - run: cd cli && npm audit --audit-level=high
