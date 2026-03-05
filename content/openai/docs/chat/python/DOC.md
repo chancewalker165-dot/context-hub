@@ -337,7 +337,7 @@ files = client.files.list()
 file_info = client.files.retrieve("file-abc123")
 
 # Download file content
-file_content = client.files.retrieve_content("file-abc123")
+file_content = client.files.content("file-abc123")
 
 # Delete a file
 client.files.delete("file-abc123")

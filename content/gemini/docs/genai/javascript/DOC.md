@@ -3,7 +3,7 @@ name: genai
 description: "Google Gemini GenAI SDK for multimodal LLM interactions in JavaScript/TypeScript"
 metadata:
   languages: "javascript"
-  versions: "0.24.1"
+  versions: "1.43.0"
   updated-on: "2026-03-01"
   source: maintainer
   tags: "gemini,google,genai,llm,multimodal"
