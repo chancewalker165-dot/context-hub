@@ -13,7 +13,7 @@ metadata:
 
 REST API for managing online quizzes, exams, classes, organizations, and users. Supports programmatic question creation with 18+ question types, parametric generation, LTI integration, and webhooks.
 
-> **Note**: This documentation covers the most commonly used endpoints and features. For complete and up-to-date API documentation with rich examples, visit the [EduBase Developer Docs](https://developer.edubase.net) or the [llms.txt](https://developer.edubase.net/llms.txt) file.
+> **Note**: This documentation covers the most commonly used endpoints and features. For complete and up-to-date API documentation with rich examples, visit the [EduBase Developer Docs](https://developer.edubase.net) or the [llms.txt](https://developer.edubase.net/llms.txt) file. If you encounter errors or unexpected behavior, consult the live documentation.
 
 **Base URL:** `https://www.edubase.net/api/v1`
 
